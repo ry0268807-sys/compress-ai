@@ -1,0 +1,130 @@
+app Compress {
+  wasp: {
+    version: "^0.23.0"
+  },
+  title: "Compress",
+  head: [
+    "<link rel=\"icon\" href=\"/favicon.ico\" />",
+  ],
+  client: {
+    rootComponent: import Layout from "@src/Layout",
+  },
+  auth: {
+    userEntity: User,
+    methods: {
+      usernameAndPassword: {}
+    },
+    onAuthFailedRedirectTo: "/login",
+    onAuthSucceededRedirectTo: "/"
+  },
+}
+
+route LoginRoute { path: "/login", to: LoginPage }
+page LoginPage {
+  component: import Login from "@src/pages/auth/Login"
+}
+route SignupRoute { path: "/signup", to: SignupPage }
+page SignupPage {
+  component: import Signup from "@src/pages/auth/Signup"
+}
+
+action createMediaFile {
+  fn: import { createMediaFile } from "@src/actions/media.js",
+  entities: [MediaFile, User]
+}
+
+action requestCompressionJob {
+  fn: import { requestCompressionJob } from "@src/actions/jobs.js",
+  entities: [CompressionJob, MediaFile, CompressionPreset, User]
+}
+
+action cancelCompressionJob {
+  fn: import { cancelCompressionJob } from "@src/actions/jobs.js",
+  entities: [CompressionJob, User]
+}
+
+action deleteMediaFile {
+  fn: import { deleteMediaFile } from "@src/actions/media.js",
+  entities: [MediaFile, CompressionJob, User]
+}
+
+action deleteCompressionJob {
+  fn: import { deleteCompressionJob } from "@src/actions/jobs.js",
+  entities: [CompressionJob, MediaFile, User]
+}
+
+action savePreset {
+  fn: import { savePreset } from "@src/actions/presets.js",
+  entities: [CompressionPreset, User]
+}
+
+action removePreset {
+  fn: import { removePreset } from "@src/actions/presets.js",
+  entities: [CompressionPreset, CompressionJob, User]
+}
+
+query getMyFiles {
+  fn: import { getMyFiles } from "@src/queries/media.js",
+  entities: [MediaFile, User]
+}
+
+query getMyJobs {
+  fn: import { getMyJobs } from "@src/queries/jobs.js",
+  entities: [CompressionJob, MediaFile, User]
+}
+
+query getJobById {
+  fn: import { getJobById } from "@src/queries/jobs.js",
+  entities: [CompressionJob, MediaFile, CompressionPreset, User]
+}
+
+query getFileById {
+  fn: import { getFileById } from "@src/queries/media.js",
+  entities: [MediaFile, CompressionJob, User]
+}
+
+query getPresets {
+  fn: import { getPresets } from "@src/queries/presets.js",
+  entities: [CompressionPreset, User]
+}
+
+query getDashboardSummary {
+  fn: import { getDashboardSummary } from "@src/queries/dashboard.js",
+  entities: [MediaFile, CompressionJob, User]
+}
+
+route DashboardRoute { path: "/", to: DashboardPage }
+page DashboardPage {
+  component: import DashboardPage from "@src/pages/Dashboard.jsx",
+  authRequired: true
+}
+
+route UploadRoute { path: "/upload", to: UploadPage }
+page UploadPage {
+  component: import UploadPage from "@src/pages/Upload.jsx",
+  authRequired: true
+}
+
+route FileDetailRoute { path: "/file/:fileId", to: FileDetailPage }
+page FileDetailPage {
+  component: import FileDetailPage from "@src/pages/FileDetail.jsx",
+  authRequired: true
+}
+
+route JobDetailRoute { path: "/job/:jobId", to: JobDetailPage }
+page JobDetailPage {
+  component: import JobDetailPage from "@src/pages/JobDetail.jsx",
+  authRequired: true
+}
+
+route PresetsRoute { path: "/presets", to: PresetsPage }
+page PresetsPage {
+  component: import PresetsPage from "@src/pages/Presets.jsx",
+  authRequired: true
+}
+
+api upload {
+  fn: import { handleUpload } from "@src/api.js",
+  httpRoute: (POST, "/upload"),
+  auth: true
+}

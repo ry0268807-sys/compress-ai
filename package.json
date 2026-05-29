@@ -1,0 +1,26 @@
+{
+  "name": "ultra-compress-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UltraCompress AI - Cross-platform video, image, and file compression",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run build -w @ultra/shared && concurrently -k -n api,web -c magenta,cyan \"npm run dev -w @ultra/backend\" \"wait-on http://127.0.0.1:4000/api/health -t 60000 && npm run dev -w @ultra/web\"",
+    "dev:desktop": "concurrently -n web,api,electron -c cyan,magenta,green \"npm run dev -w @ultra/web\" \"npm run dev -w @ultra/backend\" \"npm run dev -w @ultra/desktop\"",
+    "build": "npm run build -w @ultra/shared && npm run build -w @ultra/backend && npm run build -w @ultra/web",
+    "build:desktop": "npm run build && npm run build -w @ultra/desktop",
+    "start": "npm run start -w @ultra/backend",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3",
+    "wait-on": "^8.0.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

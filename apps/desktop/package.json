@@ -1,0 +1,38 @@
+{
+  "name": "@ultra/desktop",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "npx tsc && electron .",
+    "build": "npx tsc",
+    "pack": "npm run build && electron-builder",
+    "lint": "npx tsc --noEmit"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.3"
+  },
+  "build": {
+    "appId": "com.ultracompress.ai",
+    "productName": "UltraCompress AI",
+    "directories": {
+      "output": "release"
+    },
+    "files": ["dist/**/*"],
+    "win": {
+      "target": ["nsis"]
+    },
+    "mac": {
+      "target": ["dmg"]
+    },
+    "linux": {
+      "target": ["AppImage"]
+    }
+  }
+}
