@@ -18,7 +18,7 @@ type ControlCheck = () => 'run' | 'pause' | 'cancel';
 let activeCommand: ffmpeg.FfmpegCommand | null = null;
 let paused = false;
 
-export function pauseVideoJob(): void {
+export function  pauseVideoJob(): void {
   paused = true;
 }
 
