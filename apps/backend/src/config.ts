@@ -21,8 +21,8 @@ export const config = {
   chunkSize: 64 * 1024 * 1024,
   // FIX: Windows par specifically .exe extension force karega
  // FIX: Hardcoded absolute path for Windows with correct syntax
- ffmpegPath: 'C:\\Users\\HP\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1.1-full_build\\bin\\ffmpeg.exe',
- ffprobePath: 'C:\\Users\\HP\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1.1-full_build\\bin\\ffprobe.exe',
+ ffmpegPath: process.env.FFMPEG_PATH || 'ffmpeg',
+ ffprobePath: process.env.FFPROBE_PATH || 'ffprobe',
 };
 /** Ensure storage directories exist */
 export function ensureDirectories(): void {
