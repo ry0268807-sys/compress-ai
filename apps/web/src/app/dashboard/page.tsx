@@ -1,5 +1,5 @@
 'use client';
-
+import { useUser } from '@clerk/nextjs';
 import { useState, useEffect, useCallback } from 'react';
 import type { CompressionJob, CompressionSettings } from '@ultra/shared';
 import { TIER_LIMITS } from '@ultra/shared';
@@ -28,6 +28,7 @@ import { Loader2, HardDrive } from 'lucide-react';
 const CHUNK_THRESHOLD = 100 * 1024 * 1024; // 100MB
 
 export default function DashboardPage() {
+  const { user } = useUser();
   const [settings, setSettings] = useState<CompressionSettings>(DEFAULT_SETTINGS);
   const [jobs, setJobs] = useState<CompressionJob[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -55,18 +56,19 @@ export default function DashboardPage() {
       const file = files[0];
       if (!file) return;
 
-// Check karo ki kya browser mein admin key save hai
-const isAdmin = typeof window !== 'undefined' && localStorage.getItem("ultra_admin") === "bappa_sita_ram_123";
+      // 👑 VIP Admin Lock (Clerk Email Checking)
+      // NEECHE WALI LINE MEIN APNI ASLI EMAIL ID DAALIYE 👇
+      const myEmail = "ry0268807@gmail.com"; 
+      const isAdmin = user?.primaryEmailAddress?.emailAddress === myEmail;
 
-// Normal users ke liye 50 MB ki limit set ki hai (50 * 1024 * 1024 bytes)
-const FREE_TIER_LIMIT = 50 * 1024 * 1024;
+      const FREE_TIER_LIMIT = 50 * 1024 * 1024; // 50 MB limit
 
-// Agar admin nahi hai AUR file badi hai, tabhi roko
-if (!isAdmin && file.size > FREE_TIER_LIMIT) {
-  alert("File exceeds free tier limit. Upgrade to Premium for larger files.");
-  return;
-
+      if (!isAdmin && file.size > FREE_TIER_LIMIT) {
+        alert("File exceeds free tier limit. Upgrade to Premium for larger files.");
+        return;
       }
+
+      
 
       setUploading(true);
       setUploadProgress(0);
@@ -101,7 +103,7 @@ if (!isAdmin && file.size > FREE_TIER_LIMIT) {
         setUploadProgress(0);
       }
     },
-    [settings, tier]
+    [settings, tier,user]
   );
 
   return (
