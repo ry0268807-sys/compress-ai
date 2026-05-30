@@ -20,6 +20,7 @@ app.use(
     origin: [
       'http://localhost:3000',
       'http://127.0.0.1:3000',
+      'https://compress-ai-web-bp6k.vercel.app',
       process.env.WEB_ORIGIN || '',
     ].filter(Boolean),
     credentials: true,
