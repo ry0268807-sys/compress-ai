@@ -24,13 +24,11 @@ export function detectHardware(): HardwareInfo {
     encoders = '';
   }
 
-  const hasNvenc = encoders.includes('h264_nvenc') || encoders.includes('hevc_nvenc');
-  const hasQsv = encoders.includes('h264_qsv') || encoders.includes('hevc_qsv');
-  const hasAmf = encoders.includes('h264_amf') || encoders.includes('hevc_amf');
-  const hasVideotoolbox =
-    platform === 'darwin' &&
-    (encoders.includes('h264_videotoolbox') || encoders.includes('hevc_videotoolbox'));
-
+  const hasNvenc = false;
+  const hasQsv = false;
+  const hasAmf = false;
+  const hasVideotoolbox = false; 
+  
   let recommendedEncoder = 'libx264';
   if (hasNvenc) recommendedEncoder = 'h264_nvenc';
   else if (hasQsv) recommendedEncoder = 'h264_qsv';
