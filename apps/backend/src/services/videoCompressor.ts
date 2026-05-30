@@ -97,6 +97,7 @@ export async function compressVideo(
     if (config.ffmpegPath) cmd = cmd.setFfmpegPath(config.ffmpegPath);
 
     const outputOpts: string[] = [
+      '-threads 1',
       `-c:v ${videoEncoder}`,
       codec === 'h265' && !videoEncoder.includes('nvenc') && !videoEncoder.includes('265')
         ? `-crf ${crf}`
